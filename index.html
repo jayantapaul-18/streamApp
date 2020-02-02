@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1>Streaming Enjoy !</h1>
+
+</head>
+
+
+<body>
+<tr>GPS Data: </tr>
+${data} 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+<script>
+const socket = io.connect('http://localhost:3500');
+socket.on('Live', (data) =>{
+    console.log('Data: ', data);
+})
+
+</script>
+<tr>{data}</tr>
+</body>
+
+</html>

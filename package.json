@@ -1,0 +1,30 @@
+{
+  "name": "streamserver",
+  "version": "1.0.0",
+  "description": "stream",
+  "main": "stream.js",
+  "scripts": {
+    "start": "node stream.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayantapaul-18/streamApp.git"
+  },
+  "keywords": [
+    "Stream",
+    "Server",
+    "Nodejs"
+  ],
+  "author": "Jayanta Paul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jayantapaul-18/streamApp/issues"
+  },
+  "homepage": "https://github.com/jayantapaul-18/streamApp#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "opencv4nodejs": "^5.5.0",
+    "serialport": "^8.0.7",
+    "socket.io": "^2.3.0"
+  }
+}
