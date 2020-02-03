@@ -11,14 +11,16 @@ const async = require("async");
 const SerialPort = require('serialport');
 const Readline = SerialPort.parsers.Readline;
 //const { spawn } = require('child_process');
+const listDevice = []
 
 function listPorts() {
     SerialPort.list().then(
      ports => {
       ports.forEach(port => {
        console.log(`${port.path}`);
-       console.log(`${port.pnpId}`);
-       console.log(`${port.manufacturer}`);
+       listDevice.push(port.path);
+    //    console.log(`${port.pnpId}`);
+    //    console.log(`${port.manufacturer}`);
        
       })
      },
@@ -29,6 +31,11 @@ function listPorts() {
    }
 
    listPorts()
+
+   app.get('/listDevices', (req , res ) => {
+        res.send(listDevice);   
+        res.end(); 
+})
 
 const device = '/dev/tty.usbmodem1433301';  // ls -lha /dev/tty*
 const serialPort = new SerialPort(device, function (err) {
