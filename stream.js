@@ -5,6 +5,7 @@ const os = require('os');
 const path = require('path');
 const server = require('http').Server(app);
 const io = require ('socket.io')(server);
+const async = require("async");
 // const cv = require('opencv4nodejs')
 // const VCap = new cv.VideoCapture(0);
 const SerialPort = require('serialport');
@@ -15,7 +16,6 @@ function listPorts() {
     SerialPort.list().then(
      ports => {
       ports.forEach(port => {
-       //console.log(`${port.path}\t${port.pnpId || ''}\t${port.manufacturer || ''}`)
        console.log(`${port.path}`);
        console.log(`${port.pnpId}`);
        console.log(`${port.manufacturer}`);
@@ -36,29 +36,44 @@ const serialPort = new SerialPort(device, function (err) {
       return console.log(err.message)
     }
     else{
-        console.log('Serial communication is on with ',device);
+        console.log('Serial communication is ON with ',device);
     }
     baudRate: 57600
   })
   
 const parser = new Readline()
 serialPort.pipe(parser)
+const lineStream = serialPort.pipe(new Readline())
+
 // parser.on('data', function (data) {
 //   console.log('data received: ' + data)
 // })
-
 
 app.get('/', (req , res ) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 })
 
-setInterval(() =>{
-    parser.on('data', function (data) {
-        //console.log('data received: ' + data)
-        io.emit('live', data);
-      })
+app.get('/test', (req , res ) => {
+        var serialData = JSON.stringify(lineStream._readableState.buffer.head.data);
+        console.log(JSON.stringify(lineStream._readableState.buffer.head.data));
+        console.log({"text":serialData});
+        res.send(serialData);   
+        res.end(); 
+})
+
+app.get('/data', (req , res ) => {
+    var gpsData = {'text':'Data send from test API !'}
+        res.send(gpsData);   
+        res.end(); 
+})
+
+// setInterval(() =>{
+//     parser.on('data', function (data) {
+//         //console.log('data received: ' + data)
+//         io.emit('live', data);
+//       })
     
-}, 2000 )
+// }, 2000 )
 
 
 // setInterval(() =>{
